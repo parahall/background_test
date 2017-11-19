@@ -2,7 +2,6 @@ package academy.android.backgroundjobstat;
 
 import android.annotation.SuppressLint;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -23,7 +22,11 @@ public class NaiveService extends Service {
   private Looper looper;
   private LocationHandler locationHandler;
   private NaiveBroadcastReceiver mReceiver;
-  private NaiveNetworkHandler mNaiveNetworkHandler;
+  private NetworkHandler mNaiveNetworkHandler;
+
+  public static Intent getIntent(Context context) {
+    return new Intent(context, NaiveService.class);
+  }
 
   @Override public void onCreate() {
     super.onCreate();
@@ -32,7 +35,7 @@ public class NaiveService extends Service {
     looper = handlerThread.getLooper();
     locationHandler = new LocationHandler(looper, getApplicationContext());
     mReceiver = new NaiveBroadcastReceiver();
-    mNaiveNetworkHandler = new NaiveNetworkHandler(looper);
+    mNaiveNetworkHandler = new NetworkHandler(looper);
   }
 
   @SuppressLint("MissingPermission") @Override
@@ -40,7 +43,7 @@ public class NaiveService extends Service {
     Log.d(TAG, "Service started");
     LocalBroadcastManager.getInstance(this)
         .registerReceiver(mReceiver,
-            new IntentFilter(NaiveBroadcastReceiver.ACTION_NEW_LOCATION_ARRIVED));
+            new IntentFilter(LocationBaseBroadcast.ACTION_NEW_LOCATION_ARRIVED));
     locationHandler.removeMessages(LocationHandler.WHAT_LOCATION_REQUEST);
     locationHandler.sendEmptyMessage(LocationHandler.WHAT_LOCATION_REQUEST);
     return super.onStartCommand(intent, flags, startId);
@@ -51,6 +54,7 @@ public class NaiveService extends Service {
     LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
     locationHandler.removeCallbacksAndMessages(null);
     mNaiveNetworkHandler.removeCallbacksAndMessages(null);
+    locationHandler.stop();
     locationHandler = null;
     mNaiveNetworkHandler = null;
     looper.quit();
@@ -62,19 +66,13 @@ public class NaiveService extends Service {
     return null;
   }
 
-  public static Intent getIntent(Context context) {
-    return new Intent(context, NaiveService.class);
-  }
-
-  public class NaiveBroadcastReceiver extends BroadcastReceiver {
-    public static final String ACTION_NEW_LOCATION_ARRIVED = "ACTION_NEW_LOCATION_ARRIVED";
-    public static final String LOCATION_KEY = "LOCATION_KEY";
+  public class NaiveBroadcastReceiver extends LocationBaseBroadcast {
 
     @Override public void onReceive(Context context, Intent intent) {
       Log.d(TAG, "New location received");
       Location location = intent.getExtras().getParcelable(LOCATION_KEY);
       Message message =
-          mNaiveNetworkHandler.obtainMessage(NaiveNetworkHandler.WHAT_SEND_REPORT, location);
+          mNaiveNetworkHandler.obtainMessage(NetworkHandler.WHAT_SEND_NAIVE_REPORT, location);
       mNaiveNetworkHandler.sendMessage(message);
     }
   }

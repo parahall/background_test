@@ -5,16 +5,31 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    tools:context="academy.android.backgroundjobstat.MainActivity">
+    tools:context="academy.android.backgroundjobstat.MainActivity"
+    >
 
+  <LinearLayout
+      android:layout_width="match_parent"
 
+      android:layout_height="wrap_content"
+      android:layout_margin="16dp"
+      android:orientation="vertical"
+      >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/naive_services"
+        android:textSize="24sp"
+        />
     <Button
         android:id="@+id/btn_start_service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="@string/start_services" />
+        android:text="@string/start_services"
+        />
 
     <Button
         android:id="@+id/btn_stop_service"
@@ -22,8 +37,43 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="@string/stop_services" />
+        android:text="@string/stop_services"
+        />
 
+  </LinearLayout>
 
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="16dp"
+      android:orientation="vertical"
+      >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/jobdispatcher_services"
+        android:textSize="24sp"
+        />
+    <Button
+        android:id="@+id/btn_schedule_job"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/schedule_job"
+        />
+
+    <Button
+        android:id="@+id/btn_cancel_job_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/cancel_schedule"
+        />
+
+  </LinearLayout>
 
 </LinearLayout>

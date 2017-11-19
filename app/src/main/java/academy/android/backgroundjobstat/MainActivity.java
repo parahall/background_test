@@ -5,11 +5,19 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Trigger;
 import java.util.ArrayList;
+
+import static com.firebase.jobdispatcher.Constraint.ON_ANY_NETWORK;
+import static com.firebase.jobdispatcher.Lifetime.FOREVER;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
   private static final int PERMSSION_REQUEST_CODE = 101;
+  private FirebaseJobDispatcher firebaseJobDispatcher;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -17,6 +25,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     findViewById(R.id.btn_start_service).setOnClickListener(this);
     findViewById(R.id.btn_stop_service).setOnClickListener(this);
+    findViewById(R.id.btn_schedule_job).setOnClickListener(this);
+    findViewById(R.id.btn_cancel_job_schedule).setOnClickListener(this);
+
+    firebaseJobDispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(this));
   }
 
   @Override public void onClick(View v) {
@@ -37,6 +49,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         break;
       case R.id.btn_stop_service:
         stopService(NaiveService.getIntent(this));
+        break;
+      case R.id.btn_schedule_job:
+        Job myJob = firebaseJobDispatcher.newJobBuilder()
+            .setService(SmartService.class)
+            .setTag(SmartService.TAG)
+            .setRecurring(true)
+            .setLifetime(FOREVER)
+            .setTrigger(Trigger.executionWindow(0, 60 * 5))
+            .setReplaceCurrent(false)
+            .setConstraints(ON_ANY_NETWORK)
+            .build();
+
+        firebaseJobDispatcher.mustSchedule(myJob);
+        break;
+      case R.id.btn_cancel_job_schedule:
+        firebaseJobDispatcher.cancelAll();
         break;
     }
   }

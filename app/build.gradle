@@ -24,6 +24,8 @@ dependencies {
   compile('com.google.android.gms:play-services-location:11.6.0') {
     exclude group: 'com.android.support', module: 'support-v4'
   }
+  compile 'com.firebase:firebase-jobdispatcher:0.8.4'
+
   implementation('com.google.firebase:firebase-core:11.6.0') {
     exclude group: 'com.android.support', module: 'support-v4'
   }

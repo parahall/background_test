@@ -5,17 +5,17 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-class NaiveServerReport {
+class ServerReport {
 
   private double latitude;
   private double longitude;
   private String locationTime;
   private String reportedAt;
 
-  public NaiveServerReport() {
+  public ServerReport() {
   }
 
-  public NaiveServerReport(Location location) {
+  ServerReport(Location location) {
     latitude = location.getLatitude();
     longitude = location.getLongitude();
 
