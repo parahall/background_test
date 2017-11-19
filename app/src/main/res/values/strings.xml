@@ -1,0 +1,5 @@
+<resources>
+  <string name="app_name">BackgroundJobStat</string>
+    <string name="start_services">Start Services</string>
+  <string name="stop_services">Stop Services</string>
+</resources>
