@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       case R.id.btn_schedule_job:
         Job myJob = firebaseJobDispatcher.newJobBuilder()
             .setService(SmartService.class)
-            .setTag(SmartService.TAG)
+            .setTag(SmartService.LOCATION_SMART_JOB)
             .setRecurring(true)
             .setLifetime(FOREVER)
             .setTrigger(Trigger.executionWindow(0, 60 * 5))

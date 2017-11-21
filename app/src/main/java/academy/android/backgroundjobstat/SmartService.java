@@ -13,7 +13,8 @@ import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 
 public class SmartService extends JobService {
-  public static final String TAG = "LOCATION_SMART_JOB";
+  public static final String LOCATION_SMART_JOB = "LOCATION_SMART_JOB";
+  private static final String TAG = SmartService.class.getSimpleName();
   private LocationTracker locationTracker;
   private NetworkHandler networkHandler;
   private SmartBroadcastReceiver receiver;
@@ -21,6 +22,7 @@ public class SmartService extends JobService {
   private Looper looper;
 
   @Override public void onCreate() {
+    Log.d(TAG, "Service created");
     super.onCreate();
     handlerThread = new HandlerThread("MyHandlerThread");
     handlerThread.start();
@@ -31,6 +33,7 @@ public class SmartService extends JobService {
   }
 
   @Override public boolean onStartJob(JobParameters jobParameters) {
+    Log.d(TAG, "onStartJob");
     LocalBroadcastManager.getInstance(this)
         .registerReceiver(receiver,
             new IntentFilter(LocationBaseBroadcast.ACTION_NEW_LOCATION_ARRIVED));
@@ -39,6 +42,7 @@ public class SmartService extends JobService {
   }
 
   @Override public boolean onStopJob(JobParameters jobParameters) {
+    Log.d(TAG, "onStopJob");
     locationTracker.stop();
     return true;
   }
