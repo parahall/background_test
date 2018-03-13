@@ -34,8 +34,8 @@ public class NaiveService extends Service {
     handlerThread.start();
     looper = handlerThread.getLooper();
     locationHandler = new LocationHandler(looper, getApplicationContext());
-    mReceiver = new NaiveBroadcastReceiver();
     mNaiveNetworkHandler = new NetworkHandler(looper);
+    mReceiver = new NaiveBroadcastReceiver();
   }
 
   @SuppressLint("MissingPermission") @Override
@@ -70,6 +70,9 @@ public class NaiveService extends Service {
 
     @Override public void onReceive(Context context, Intent intent) {
       Log.d(TAG, "New location received");
+      if (locationHandler != null) {
+        locationHandler.stop();
+      }
       Location location = intent.getExtras().getParcelable(LOCATION_KEY);
       Message message =
           mNaiveNetworkHandler.obtainMessage(NetworkHandler.WHAT_SEND_NAIVE_REPORT, location);

@@ -1,6 +1,7 @@
 package academy.android.backgroundjobstat;
 
 import android.location.Location;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,7 +20,8 @@ class ServerReport {
     latitude = location.getLatitude();
     longitude = location.getLongitude();
 
-    DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
+      DateFormat formatter =
+              SimpleDateFormat.getDateTimeInstance();// new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
 
     Calendar calendar = Calendar.getInstance();
     calendar.setTimeInMillis(location.getTime());

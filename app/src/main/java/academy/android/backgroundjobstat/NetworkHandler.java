@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,7 +26,8 @@ public class NetworkHandler extends Handler {
         Location location = (Location) msg.obj;
         ServerReport serverReport = new ServerReport(location);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("NaiveReport");
+          DatabaseReference myRef =
+                  database.getReference("NaiveReport v" + android.os.Build.VERSION.SDK_INT);
         myRef.push().setValue(serverReport);
         break;
       case WHAT_SEND_SMART_REPORT:
@@ -33,7 +35,7 @@ public class NetworkHandler extends Handler {
         location = (Location) msg.obj;
         serverReport = new ServerReport(location);
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("SmartReport");
+          myRef = database.getReference("SmartReport v" + android.os.Build.VERSION.SDK_INT);
         myRef.push().setValue(serverReport);
     }
   }

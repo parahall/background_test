@@ -4,11 +4,14 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Trigger;
+
 import java.util.ArrayList;
 
 import static com.firebase.jobdispatcher.Constraint.ON_ANY_NETWORK;
@@ -17,6 +20,7 @@ import static com.firebase.jobdispatcher.Lifetime.FOREVER;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
   private static final int PERMSSION_REQUEST_CODE = 101;
+  private static final String TAG = MainActivity.class.getSimpleName();
   private FirebaseJobDispatcher firebaseJobDispatcher;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +49,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     switch (v.getId()) {
       case R.id.btn_start_service:
+        Log.d(TAG, "Starting service");
         startService(NaiveService.getIntent(this));
         break;
       case R.id.btn_stop_service:
+        Log.d(TAG, "Stoping service");
         stopService(NaiveService.getIntent(this));
         break;
       case R.id.btn_schedule_job:
+        Log.d(TAG, "Schedule job");
         Job myJob = firebaseJobDispatcher.newJobBuilder()
             .setService(SmartService.class)
             .setTag(SmartService.LOCATION_SMART_JOB)
@@ -64,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         firebaseJobDispatcher.mustSchedule(myJob);
         break;
       case R.id.btn_cancel_job_schedule:
+        Log.d(TAG, "Cancel all jobs");
         firebaseJobDispatcher.cancelAll();
         break;
     }

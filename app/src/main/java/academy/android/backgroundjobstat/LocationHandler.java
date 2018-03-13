@@ -1,6 +1,5 @@
 package academy.android.backgroundjobstat;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -13,23 +12,28 @@ public class LocationHandler extends Handler {
   private static final String TAG = LocationHandler.class.getSimpleName();
   private static final int FIVE_MINUTES = 5 * 60 * 1000;
 
-  private final LocationTracker locationTracker;
+  private LocationTracker locationTracker;
 
   LocationHandler(Looper looper, Context context) {
     super(looper);
     locationTracker = new LocationTracker(context, getLooper());
   }
 
-  @SuppressLint("MissingPermission") @Override public void handleMessage(Message msg) {
+  @Override
+  public void handleMessage(Message msg) {
     switch (msg.what) {
       case WHAT_LOCATION_REQUEST:
         sendEmptyMessageDelayed(WHAT_LOCATION_REQUEST, FIVE_MINUTES);
         Log.d(TAG, "WHAT_LOCATION_REQUEST");
         locationTracker.start();
+        break;
     }
   }
 
   void stop() {
-    locationTracker.stop();
+    if (locationTracker != null) {
+      locationTracker.stop();
+      locationTracker = null;
+    }
   }
 }
