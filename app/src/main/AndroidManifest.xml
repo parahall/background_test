@@ -3,8 +3,8 @@
     package="academy.android.backgroundjobstat">
 
 
-  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 
   <application
@@ -16,26 +16,26 @@
       android:theme="@style/AppTheme">
     <activity android:name=".MainActivity">
       <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
+        <action android:name="android.intent.action.MAIN" />
 
-        <category android:name="android.intent.category.LAUNCHER"/>
+        <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
 
     <service
         android:name=".NaiveService"
         android:enabled="true"
-        android:exported="true"/>
+        android:exported="true" />
 
     <service
         android:name=".SmartService"
         android:exported="false">
       <intent-filter>
-        <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+        <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
       </intent-filter>
     </service>
 
-    <receiver android:name=".NaiveService$NaiveBroadcastReceiver"/>
+    <receiver android:name=".NaiveService$NaiveBroadcastReceiver" />
   </application>
 
 </manifest>

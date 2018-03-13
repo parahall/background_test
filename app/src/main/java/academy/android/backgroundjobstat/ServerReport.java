@@ -8,43 +8,44 @@ import java.util.Calendar;
 
 class ServerReport {
 
-  private double latitude;
-  private double longitude;
-  private String locationTime;
-  private String reportedAt;
+    private double latitude;
+    private double longitude;
+    private String locationTime;
+    private String reportedAt;
 
-  public ServerReport() {
-  }
+    public ServerReport() {
+    }
 
-  ServerReport(Location location) {
-    latitude = location.getLatitude();
-    longitude = location.getLongitude();
+    ServerReport(Location location) {
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
 
-      DateFormat formatter =
-              SimpleDateFormat.getDateTimeInstance();// new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
+        DateFormat formatter =
+                SimpleDateFormat.getDateTimeInstance();// new SimpleDateFormat("dd/MM/yyyy
+        // hh:mm:ss.SSS");
 
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTimeInMillis(location.getTime());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(location.getTime());
 
-    locationTime = formatter.format(calendar.getTime());
+        locationTime = formatter.format(calendar.getTime());
 
-    calendar.setTimeInMillis(System.currentTimeMillis());
-    reportedAt = formatter.format(calendar.getTime());
-  }
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        reportedAt = formatter.format(calendar.getTime());
+    }
 
-  public double getLatitude() {
-    return latitude;
-  }
+    public double getLatitude() {
+        return latitude;
+    }
 
-  public double getLongitude() {
-    return longitude;
-  }
+    public double getLongitude() {
+        return longitude;
+    }
 
-  public String getLocationTime() {
-    return locationTime;
-  }
+    public String getLocationTime() {
+        return locationTime;
+    }
 
-  public String getReportedAt() {
-    return reportedAt;
-  }
+    public String getReportedAt() {
+        return reportedAt;
+    }
 }

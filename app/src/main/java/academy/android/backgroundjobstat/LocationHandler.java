@@ -7,33 +7,33 @@ import android.os.Message;
 import android.util.Log;
 
 public class LocationHandler extends Handler {
-  static final int WHAT_LOCATION_REQUEST = 101;
-  static final int TIME_LOCATION_INTERVAL = 2 * 60 * 1000;
-  private static final String TAG = LocationHandler.class.getSimpleName();
-  private static final int FIVE_MINUTES = 5 * 60 * 1000;
+    static final int WHAT_LOCATION_REQUEST = 101;
+    static final int TIME_LOCATION_INTERVAL = 2 * 60 * 1000;
+    private static final String TAG = LocationHandler.class.getSimpleName();
+    private static final int FIVE_MINUTES = 5 * 60 * 1000;
 
-  private LocationTracker locationTracker;
+    private LocationTracker locationTracker;
 
-  LocationHandler(Looper looper, Context context) {
-    super(looper);
-    locationTracker = new LocationTracker(context, getLooper());
-  }
-
-  @Override
-  public void handleMessage(Message msg) {
-    switch (msg.what) {
-      case WHAT_LOCATION_REQUEST:
-        sendEmptyMessageDelayed(WHAT_LOCATION_REQUEST, FIVE_MINUTES);
-        Log.d(TAG, "WHAT_LOCATION_REQUEST");
-        locationTracker.start();
-        break;
+    LocationHandler(Looper looper, Context context) {
+        super(looper);
+        locationTracker = new LocationTracker(context, getLooper());
     }
-  }
 
-  void stop() {
-    if (locationTracker != null) {
-      locationTracker.stop();
-      locationTracker = null;
+    @Override
+    public void handleMessage(Message msg) {
+        switch (msg.what) {
+            case WHAT_LOCATION_REQUEST:
+                sendEmptyMessageDelayed(WHAT_LOCATION_REQUEST, FIVE_MINUTES);
+                Log.d(TAG, "WHAT_LOCATION_REQUEST");
+                locationTracker.start();
+                break;
+        }
     }
-  }
+
+    void stop() {
+        if (locationTracker != null) {
+            locationTracker.stop();
+            locationTracker = null;
+        }
+    }
 }
