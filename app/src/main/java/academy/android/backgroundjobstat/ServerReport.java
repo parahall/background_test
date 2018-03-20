@@ -17,15 +17,19 @@ class ServerReport {
     }
 
     ServerReport(Location location) {
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
+        this(location.getLongitude(), location.getLatitude(), location.getTime());
+    }
+
+    ServerReport(double longitude, double latitude, long time) {
+        this.longitude = longitude;
+        this.latitude = latitude;
 
         DateFormat formatter =
                 SimpleDateFormat.getDateTimeInstance();// new SimpleDateFormat("dd/MM/yyyy
         // hh:mm:ss.SSS");
 
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(location.getTime());
+        calendar.setTimeInMillis(time);
 
         locationTime = formatter.format(calendar.getTime());
 

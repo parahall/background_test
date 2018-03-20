@@ -6,4 +6,7 @@
     <string name="schedule_job">Schedule Job</string>
     <string name="jobdispatcher_services">JobDispatcher services</string>
     <string name="cancel_schedule">Cancel Schedule</string>
+    <string name="start_periodic_worker">Start Periodic Worker</string>
+    <string name="worker">Worker</string>
+    <string name="stop_periodic_worker">Stop Periodic Worker</string>
 </resources>

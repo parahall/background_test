@@ -1,33 +1,52 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 27
-  defaultConfig {
-    applicationId "academy.android.backgroundjobstat"
-    minSdkVersion 16
-    targetSdkVersion 27
-    versionCode 1
-    versionName "1.0"
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-  }
-  buildTypes {
-    release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "academy.android.backgroundjobstat"
+        minSdkVersion 16
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-  }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-  implementation fileTree(include: ['*.jar'], dir: 'libs')
-  implementation 'com.android.support:appcompat-v7:27.1.0'
-  implementation 'com.google.android.gms:play-services-location:11.8.0'
-  implementation 'com.firebase:firebase-jobdispatcher:0.8.4'
-  implementation 'com.google.firebase:firebase-core:11.8.0'
-  implementation 'com.google.firebase:firebase-database:11.8.0'
-  testImplementation 'junit:junit:4.12'
-  androidTestImplementation 'com.android.support.test:runner:1.0.1'
-  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+//    implementation 'androidx.work:work-runtime:1.0.0-alpha1'
+    def work_version = "1.0.0-alpha01"
+
+    implementation "android.arch.work:work-runtime:$work_version" // use -ktx for Kotlin
+
+    // optional - Firebase JobDispatcher support
+    implementation "android.arch.work:work-firebase:$work_version"
+
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    api('com.google.android.gms:play-services-location:11.8.0') {
+        exclude group: 'com.android.support'
+    }
+    compile ('com.firebase:firebase-jobdispatcher:0.8.4') {
+        exclude group: 'com.android.support', module: 'support-v4'
+    }
+    compile ('com.google.firebase:firebase-core:11.8.0') {
+        exclude group: 'com.android.support', module: 'support-v4'
+    }
+    compile ('com.google.firebase:firebase-database:11.8.0') {
+        exclude group: 'com.android.support', module: 'support-v4'
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -29,7 +29,7 @@ public class SmartService extends JobService {
         handlerThread = new HandlerThread("MyHandlerThread");
         handlerThread.start();
         looper = handlerThread.getLooper();
-        networkHandler = new NetworkHandler(looper);
+        networkHandler = new NetworkHandler(looper, getApplicationContext());
         locationTracker = new LocationTracker(this, looper);
         receiver = new SmartBroadcastReceiver();
     }

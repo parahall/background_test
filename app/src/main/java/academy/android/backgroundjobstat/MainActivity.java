@@ -13,12 +13,19 @@ import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Trigger;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import static com.firebase.jobdispatcher.Constraint.ON_ANY_NETWORK;
 import static com.firebase.jobdispatcher.Lifetime.FOREVER;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static final int FIVETEEN_MIN = 1000 * 60 * 15;
     private static final int PERMSSION_REQUEST_CODE = 101;
     private static final String TAG = MainActivity.class.getSimpleName();
     private FirebaseJobDispatcher firebaseJobDispatcher;
@@ -32,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_stop_service).setOnClickListener(this);
         findViewById(R.id.btn_schedule_job).setOnClickListener(this);
         findViewById(R.id.btn_cancel_job_schedule).setOnClickListener(this);
+        findViewById(R.id.btn_peiodic_work).setOnClickListener(this);
+        findViewById(R.id.btn_stop_peiodic_work).setOnClickListener(this);
 
         firebaseJobDispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(this));
     }
@@ -57,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startService(NaiveService.getIntent(this));
                 break;
             case R.id.btn_stop_service:
-                Log.d(TAG, "Stoping service");
+                Log.d(TAG, "Stopping service");
                 stopService(NaiveService.getIntent(this));
                 break;
             case R.id.btn_schedule_job:
@@ -77,6 +86,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_cancel_job_schedule:
                 Log.d(TAG, "Cancel all jobs");
                 firebaseJobDispatcher.cancelAll();
+                break;
+            case R.id.btn_peiodic_work:
+                Log.d(TAG, "Schedule periodic Work: ");
+                Constraints constraints = new Constraints.Builder().setRequiredNetworkType
+                        (NetworkType.CONNECTED).build();
+                PeriodicWorkRequest locationWork = new PeriodicWorkRequest.Builder(LocationWork
+                        .class, 15, TimeUnit.MINUTES).addTag(LocationWork.TAG)
+                        .setConstraints(constraints).build();
+                WorkManager.getInstance().enqueue(locationWork);
+
+                break;
+            case R.id.btn_stop_peiodic_work:
+                Log.d(TAG, "Cancel periodic work");
+                WorkManager.getInstance().cancelAllWorkByTag(LocationWork.TAG);
                 break;
         }
     }
